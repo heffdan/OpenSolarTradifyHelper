@@ -31,7 +31,7 @@ jobs:
         crx3 -o OpenSolarTradifyHelper.crx -p key.pem ./
 
     - name: Upload `.crx` artifact
-      uses: actions/upload-artifact@v3@c2aafc8f9c1408383d1f9cbf37f8d4f1b8ec63a6
+      uses: actions/upload-artifact@v3@1a4442cacd436585916779262731d5b162bc6ec7
       with:
         name: chrome-extension
         path: OpenSolarTradifyHelper.crx
