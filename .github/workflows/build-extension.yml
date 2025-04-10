@@ -28,7 +28,7 @@ jobs:
 
     - name: Package extension with crx3
       run: |
-        crx3 -o OpenSolarTradifyHelper.crx -p key.pem ./
+       crx3 -o OpenSolarTradifyHelper.crx -p ./key.pem $(pwd)
 
     - name: Upload `.crx` artifact
       uses: actions/upload-artifact@v4
