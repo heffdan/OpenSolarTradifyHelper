@@ -1,0 +1,37 @@
+name: Build Chrome Extension
+
+on:
+  push:
+    branches:
+      - main  # or 'release' if that's your flow
+  workflow_dispatch:  # allows manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install crx3 CLI
+      run: npm install -g crx3
+
+    - name: Create key.pem from secret
+      run: |
+        echo "${{ secrets.EXTENSION_PRIVATE_KEY }}" > key.pem
+
+    - name: Package extension with crx3
+      run: |
+        crx3 -o OpenSolarTradifyHelper.crx -p key.pem ./
+
+    - name: Upload `.crx` artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: chrome-extension
+        path: OpenSolarTradifyHelper.crx
