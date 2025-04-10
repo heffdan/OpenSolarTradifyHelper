@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>OpenSolar Project Info</title>
+    <style>
+      table {
+        border-collapse: collapse;
+      }
+      td,
+      th {
+        padding: 6px;
+        border: 1px solid #ddd;
+      }
+      button {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>OpenSolar Project Info</h1>
+    <div id="message">Loading...</div>
+    <div id="table-container"></div>
+
+    <!-- Load config first so popup.js has access to it -->
+    <script src="secret.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
