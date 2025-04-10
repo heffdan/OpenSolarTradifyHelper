@@ -1,0 +1,14 @@
+{
+    "name": "OpenSolar to Tradify Helper",
+    "version": "1.0",
+    "description": "Fetches OpenSolar Job and Customer information from existing projects for import to Tradify.",
+    "manifest_version": 3,
+    "permissions": ["activeTab", "tabs", "storage"],
+    "host_permissions": [
+      "https://api.opensolar.com/*"
+    ],
+    "action": {
+      "default_popup": "popup.html"
+    }
+  }
+  
