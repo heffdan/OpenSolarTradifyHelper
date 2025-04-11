@@ -6,10 +6,24 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       const name = customerName.trim(); // Customer Name from OpenSolar
       const phone = contact.phone || "";
       const email = contact.email || "";
-  
+      const customerNameWidget = $("[value='vm.customer.customerName']");
+
+
       // Delay to let Angular/Wijmo render the fields
       setTimeout(() => {
-        // Find input fields using their associated labels:
+
+        if (customerNameWidget.length) {
+          const input = customerNameWidget.find("input");
+      
+          if (input.length) {
+            input.val(name).trigger("input"); // Set value and trigger change detection
+          } else {
+            console.warn("Input inside customer name widget not found.");
+          }
+        } else {
+          console.warn("Customer name container not found.");
+        }
+        /** Find input fields using their associated labels:
         const nameInput = findInputByLabelText("Customer Name");
         const phoneInput = findInputByLabelText("Phone");
         const emailInput = findInputByLabelText("Email Address(es)");
@@ -34,7 +48,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         } else {
           console.warn("❌ Email input not found.");
         }
-      }, 1500);
+      }, 1500);**/
+
     }
   });
   
