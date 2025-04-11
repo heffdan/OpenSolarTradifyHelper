@@ -7,13 +7,13 @@
       table {
         border-collapse: collapse;
       }
-      td,
-      th {
+      td, th {
         padding: 6px;
         border: 1px solid #ddd;
       }
       button {
         cursor: pointer;
+        margin-top: 10px;
       }
     </style>
   </head>
@@ -21,8 +21,7 @@
     <h1>OpenSolar Project Info</h1>
     <div id="message">Loading...</div>
     <div id="table-container"></div>
-
-    <!-- Load config first so popup.js has access to it -->
+    <button id="paste-button">Paste into Tradify</button>
     <script src="secret.js"></script>
     <script src="popup.js"></script>
   </body>
