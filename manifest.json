@@ -14,7 +14,7 @@
     "content_scripts": [
     {
       "matches": ["https://*.tradifyhq.com/*"],
-      "js": ["content.js"],
+      "js": ["jquery-3.7.1.min.js","content.js"],
       "run_at": "document_idle"
     }
   ]
