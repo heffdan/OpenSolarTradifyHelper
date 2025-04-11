@@ -5,10 +5,18 @@
     "manifest_version": 3,
     "permissions": ["activeTab", "tabs", "storage"],
     "host_permissions": [
-      "https://api.opensolar.com/*"
+      "https://api.opensolar.com/*",
+      "https://*.tradifyhq.com/*"
     ],
     "action": {
       "default_popup": "popup.html"
+    },
+    "content_scripts": [
+    {
+      "matches": ["https://*.tradifyhq.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
     }
+  ]
   }
   

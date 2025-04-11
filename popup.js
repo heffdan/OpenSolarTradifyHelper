@@ -1,8 +1,6 @@
-// Grab your org/token from the config.js file:
 const { ORG_ID, OPEN_SOLAR_BEARER_TOKEN } = window.OPEN_SOLAR_CONFIG;
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Extract the project ID from the current tab's URL
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     if (!tabs || !tabs.length) {
       setMessage("No active tab found.");
@@ -10,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const url = tabs[0].url || "";
-    // Looking for: #/projects/<digits>/manage
     const match = url.match(/#\/projects\/(\d+)\//);
     if (match && match[1]) {
       const projectId = match[1];
@@ -20,14 +17,36 @@ document.addEventListener("DOMContentLoaded", () => {
       setMessage("Could not find a project number in this URL.");
     }
   });
+
+  // check if on tradify page first
+  document.getElementById("paste-button").addEventListener("click", () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const tab = tabs[0];
+      if (!tab || !tab.url.includes("tradifyhq.com")) {
+        setMessage("Please switch to the Tradify tab before pasting.");
+        return;
+      }
+// warning if not data 
+      chrome.storage.local.get("openSolarProjectData", (result) => {
+        const data = result.openSolarProjectData;
+        if (!data) {
+          setMessage("No project data found. Please copy from OpenSolar first.");
+          return;
+        }
+//action for content.js to pull data from
+        chrome.tabs.sendMessage(tab.id, {
+          action: "pasteToTradify",
+          project: data
+        });
+      });
+    });
+  });
 });
 
-/** Updates the message div for status/errors. */
 function setMessage(text) {
   document.getElementById("message").textContent = text;
 }
 
-/** Fetch project details from the OpenSolar API. */
 function fetchProjectDetails(orgId, projectId) {
   const endpoint = `https://api.opensolar.com/api/orgs/${orgId}/projects/${projectId}/`;
 
@@ -40,45 +59,37 @@ function fetchProjectDetails(orgId, projectId) {
     .then(async (response) => {
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(
-          `API request failed with status ${response.status}: ${errorText}`
-        );
+        throw new Error(`API request failed with status ${response.status}: ${errorText}`);
       }
       return response.json();
     })
     .then((data) => {
       createResultsTable(data);
       setMessage("Project details loaded.");
+      chrome.storage.local.set({ openSolarProjectData: data }, () => {
+        console.log("Project data stored.");
+      });
     })
     .catch((err) => {
       setMessage(`Error: ${err.message}`);
     });
 }
 
-/** Dynamically create a table with address & contacts, plus "Copy" buttons. */
 function createResultsTable(apiData) {
   const tableContainer = document.getElementById("table-container");
-  tableContainer.innerHTML = ""; // Clear existing
-
+  tableContainer.innerHTML = "";
   const table = document.createElement("table");
   const tbody = document.createElement("tbody");
   table.appendChild(tbody);
 
-  // Helper to add a row with a copy button
   const addRow = (label, value) => {
     const row = document.createElement("tr");
-
-    // Field name
     const labelTd = document.createElement("td");
     labelTd.textContent = label;
     row.appendChild(labelTd);
-
-    // Value
     const valueTd = document.createElement("td");
     valueTd.textContent = value;
     row.appendChild(valueTd);
-
-    // Copy button
     const buttonTd = document.createElement("td");
     const copyButton = document.createElement("button");
     copyButton.textContent = "Copy";
@@ -87,19 +98,11 @@ function createResultsTable(apiData) {
     });
     buttonTd.appendChild(copyButton);
     row.appendChild(buttonTd);
-
     tbody.appendChild(row);
   };
 
-  // 1) Address
-  const address = apiData.address || "N/A";
-  addRow("Address", address);
-
-  // 2) Contacts (assuming apiData.contacts_data is an array of contact objects)
-  const contactsData = Array.isArray(apiData.contacts_data)
-    ? apiData.contacts_data
-    : [];
-
+  addRow("Address", apiData.address || "N/A");
+  const contactsData = Array.isArray(apiData.contacts_data) ? apiData.contacts_data : [];
   if (!contactsData.length) {
     addRow("Contacts", "No contacts found");
   } else {
@@ -114,14 +117,10 @@ function createResultsTable(apiData) {
   tableContainer.appendChild(table);
 }
 
-/** Copy text to clipboard (via the Clipboard API). */
 function copyToClipboard(text) {
-  navigator.clipboard
-    .writeText(text)
-    .then(() => {
-      alert(`Copied: ${text}`);
-    })
-    .catch((err) => {
-      alert(`Failed to copy: ${err}`);
-    });
+  navigator.clipboard.writeText(text).then(() => {
+    alert(`Copied: ${text}`);
+  }).catch((err) => {
+    alert(`Failed to copy: ${err}`);
+  });
 }
