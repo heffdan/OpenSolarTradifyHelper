@@ -34,3 +34,15 @@ window.formMap = { //determine which form to use base on div present, for multip
     "#job-detail": "job",
     "#customer-detail": "customer"
 };
+
+window.tabList = [ //list of tabs to be used for autofill
+    "info",
+    "notes",
+    "sites",
+    "jobs",
+    "recurringjobs",
+    "servicereminders",
+    "invoices",
+    "recurringinvoices",
+    "quotes"
+]; 

@@ -1,4 +1,18 @@
 // This script runs in the context of the web page and interacts with the DOM
+const buttonId = 'btnOpenSolarImport';
+let currentTab = null;
+
+function isTabActive(key) {
+  /**
+   * This function checks if a specific tab is active in the UI.
+    * It uses jQuery to find the tab based on the provided key.
+    * @param {string} key - The key of the tab to check.
+    * @returns {boolean} - Returns true if the tab is active, false otherwise.
+    * 
+   */
+  return $(`[ng-if="vm.selectedTabKey == '${key}'"]`).length > 0;
+}
+
 function getByPath(obj, path) {
   /**
    * This function retrieves a value from an object using a dot-separated path.
@@ -51,6 +65,50 @@ function autofillForm(sourceSystem, targetSystem, data) {
   }
 }
 
+function injectButton() {
+  // Avoid duplicate buttons
+  if (document.getElementById(buttonId)) return;
+
+  const target = $('.navbar-fixed-bottom.action-bar .pull-left');
+  if (target.length > 0) {
+    const btn = document.createElement('button');
+    btn.id = buttonId;
+    btn.textContent = "Insert from OpenSolar";
+    btn.class = "btn btn-black";
+    btn.addEventListener("click", () => {
+      alert("Button clicked!");
+      // You can call your autofill function or other logic here
+    });
+    target.append(btn);
+  }
+}
+
+function watchForTab() {
+  /**
+   * This function watches for the active tab in the UI.
+   * It checks if the tab is active and injects the button if it is.
+   * @returns {void}
+   * @throws {Error} If the tab is not found.
+   * 
+   */
+  const observer = new MutationObserver(() => {
+    for (tab in window.tabList) {
+      if (isTabActive(tab)) {
+        let currentTab = tab;
+        injectButton();
+        return;
+      } else {
+        currentTab = null;
+      }
+    }
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+}
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   /**
    * This function listens for messages from the background script.
@@ -84,10 +142,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   // Delay to let Angular/Wijmo render the fields
   setTimeout(() => {
-    sourceSystem = `OpenSolar.${form}`;
-    targetSystem = `Tradify.${form}`;
-    console.log("Source System:", sourceSystem); ///TODO Remove
+    sourceSystem = `OpenSolar`;
+    targetSystem = `Tradify`;
     autofillForm(sourceSystem, targetSystem, project);
   }, 100);
   }
 });
+
+document.addEventListener("DOMContentLoaded", watchForTab);
+
