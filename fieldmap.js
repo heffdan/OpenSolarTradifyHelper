@@ -46,3 +46,5 @@ window.tabList = [ //list of tabs to be used for autofill
     "recurringinvoices",
     "quotes"
 ]; 
+
+window.buttonLocation = '.navbar-fixed-bottom.action-bar .pull-left'; //location of button to be injected

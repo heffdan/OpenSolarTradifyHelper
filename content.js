@@ -66,10 +66,17 @@ function autofillForm(sourceSystem, targetSystem, form, data) {
 }
 
 function injectButton() {
+  /**
+   * This function injects the Import button into the UI in the lower action bar.
+   * It checks if the button already exists to avoid duplicates.
+   * @returns {void}
+   * @throws {Error} If the button cannot be injected.
+   * 
+   */
   // Avoid duplicate buttons
   if (document.getElementById(buttonId)) return;
 
-  const target = $('.navbar-fixed-bottom.action-bar .pull-left');
+  const target = $(window.buttonLocation);
   if (target.length > 0) {
     const btn = document.createElement('button');
     btn.id = buttonId;
@@ -131,6 +138,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     let form = "";
     //log to console
     console.log("Received project data:", project);
+    injectButton();
 
     //determine which form to use based on the presence of the divs, formMap defined in fieldmap.js
   for (const key in window.formMap) {
