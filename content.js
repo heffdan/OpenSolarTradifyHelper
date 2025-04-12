@@ -130,5 +130,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-document.addEventListener("DOMContentLoaded", injectButton('Tradify'));
+document.addEventListener("DOMContentLoaded", () => injectButton('Tradify'));
 
