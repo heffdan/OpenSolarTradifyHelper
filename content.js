@@ -49,7 +49,7 @@ function autofillForm(sourceSystem, targetSystem, form, data) {
    */
   const sourceFields = window.fieldmap[sourceSystem][form];
   const targetFields = window.fieldmap[targetSystem][form];
-
+  console.log("Source Fields:", sourceFields); ///TODO Remove
   for (const logicalKey in sourceFields) {
     const sourcePath = sourceFields[logicalKey];
     const targetModel = targetFields[logicalKey];
