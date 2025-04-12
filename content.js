@@ -88,31 +88,7 @@ function injectButton(platform) {
   }
 }
 
-function watchForTab() {
-  /**
-   * This function watches for the active tab in the UI.
-   * It checks if the tab is active and injects the button if it is.
-   * @returns {void}
-   * @throws {Error} If the tab is not found.
-   * 
-   */
-  const observer = new MutationObserver(() => {
-    for (tab in window.tabList) {
-      if (isTabActive(tab)) {
-        let currentTab = tab;
-        injectButton('Tradify');
-        return;
-      } else {
-        currentTab = null;
-      }
-    }
-  });
 
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
-}
 
 function reqFormFill() {
   let form = "";
@@ -153,5 +129,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-document.addEventListener("DOMContentLoaded", watchForTab);
+document.addEventListener("DOMContentLoaded", injectButton('Tradify'));
 
