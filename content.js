@@ -75,20 +75,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log("Received project data:", project);
 
     //determine which form to use based on the presence of the divs, formMap defined in fieldmap.js
-   for (const key in window.formMap) {
-      if ($(key).length) {
-        form = window.formMap[key];
-        break;
-      }
+  for (const key in window.formMap) {
+    if ($(key).length) {
+      form = window.formMap[key];
+      break;
     }
+  }
 
-    // Delay to let Angular/Wijmo render the fields
-    setTimeout(() => {
-      sourceSystem = "OpenSolar.${form}";
-      targetSystem = "Tradify.${form}";
-      console.log("Source System:", sourceSystem); ///TODO Remove
-      autofillForm(sourceSystem, targetSystem,project);
-
-    }, 100);
+  // Delay to let Angular/Wijmo render the fields
+  setTimeout(() => {
+    sourceSystem = `OpenSolar.${form}`;
+    targetSystem = `Tradify.${form}`;
+    console.log("Source System:", sourceSystem); ///TODO Remove
+    autofillForm(sourceSystem, targetSystem, project);
+  }, 100);
   }
 });
