@@ -35,8 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 //action for content.js to pull data from
         chrome.tabs.sendMessage(tab.id, {
-          action: "pasteToTradify",
-          project: data
+          action: "pasteToTradify"
         });
       });
     });
