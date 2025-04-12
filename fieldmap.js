@@ -1,36 +1,36 @@
 
 
-window.fieldmap = {
-    "OpenSolar": {
+window.fieldmap = { 
+    "OpenSolar": { //maps to OpenSolar data
         "customer": {
             "firstName": "contacts_data.0.first_name",
-            "lastName": "contacts_data.0.last_name",
+            "lastName": "contacts_data.0.family_name",
             "displayName": "contacts_data.0.display",
             "email": "contacts_data.0.email",
             "phone": "contacts_data.0.phone",
-            "address": "contacts_data.0.address",
-            "city": "contacts_data.0.city",
-            "countryName": "contacts_data.0.countryName",
-            "state": "contacts_data.0.state",
-            "postcode": "contacts_data.0.postcode"
         },
-        "project": {
-            // project fields
+        "job": {
+            "siteName": "title",
+            "address": "address",
+            "countryName": "countryName",
         }
     },
-    "Tradify": {
+    "Tradify": { //maps to Tradify fields
         "customer": {
             "displayName": "vm.customer.customerName",
             "email": "vm.customer.email",
             "mobile": "vm.customer.mobileNumber",
             "phone": "vm.customer.phoneNumber",
-            "address": "vm.customer.physicalGeoAddress",
-            "city": "",
-            "state": "",
-            "postcode": ""
+            "address": "vm.customer.physicalGeoAddress"
         },
-        "project": {
+        "job": {
             // project fields
+            "siteName": "vm.model.locationName",
         }
     }
+};
+
+window.formMap = { //determine which form to use base on div present, for multiple (ie popups it will be chosen by last in list
+    "#job-detail": "job",
+    "#customer-detail": "customer"
 };
