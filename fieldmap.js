@@ -47,4 +47,21 @@ window.tabList = [ //list of tabs to be used for autofill
     "quotes"
 ]; 
 
-window.buttonLocation = '.navbar-fixed-bottom.action-bar .pull-left'; //location of button to be injected
+window.btnElement = {
+    OpenSolar: { //button to be injected for OpenSolar
+        "location": '.navbar-fixed-bottom.action-bar .pull-left', //location of button to be injected
+        "id":'export-button', //id of button to be injected
+        "title": 'Export to Tradify', //text of button to be injected
+        "className": 'OSUI-ButtonBase-root OSUI-ButtonBase-sizeMedium OSUI-ButtonBase-colorPrimary OSUI-ButtonBase-variantSquared css-1g2t3k4', //class of button to be injected
+        "textContent": '',
+        "svg": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" width="20" height="20"><defs><style>.cls-1 { fill: #009bc5; } .cls-2 { fill: none; }</style></defs><path class="cls-2" d="M0,0H150V150H0V0Z"></path><polygon class="cls-1" points="19.03 42.34 19.03 49.16 59.08 49.16 59.08 138.19 101.62 138.19 101.62 49.16 128.52 49.16 128.52 15.06 46.43 15.06 19.03 42.34"></polygon></svg>'
+    },
+    Tradify: { //button to be injected for Tradify
+        "location": '.navbar-fixed-bottom.action-bar .pull-left', //location of button to be injected
+        "id":'import-button', //id of button to be injected
+        "title": 'Import from OpenSolar', //text of button to be injected
+        "className": 'btn btn-black ng-binding ng-scope', //class of button to be injected
+        "textContent": 'Import from OpenSolar', //content of button to be injected
+        "svg": ''
+    }
+};

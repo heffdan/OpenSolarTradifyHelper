@@ -1,6 +1,7 @@
 // This script runs in the context of the web page and interacts with the DOM
 const buttonId = 'btnOpenSolarImport';
 let currentTab = null;
+let userMessage = null;
 
 function isTabActive(key) {
   /**
@@ -65,26 +66,23 @@ function autofillForm(sourceSystem, targetSystem, form, data) {
   }
 }
 
-function injectButton() {
+function injectButton(platform) {
   /**
-   * This function injects the Import button into the UI in the lower action bar.
-   * It checks if the button already exists to avoid duplicates.
+   * This function injects a button into the UI.
+   * It checks if the button already exists before creating a new one.
    * @returns {void}
-   * @throws {Error} If the button cannot be injected.
-   * 
    */
-  // Avoid duplicate buttons
-  if (document.getElementById(buttonId)) return;
-
-  const target = $(window.buttonLocation);
-  if (target.length > 0) {
+  const {location, id , title, className, textContent, svg} = window.btnElement[platform]; // Get the button element details from the fieldmap
+  if (document.getElementById(id)) return; // Check if the button already exists, if so exit
+  const target = $(location);
+  if (target.length > 0) { // Check if the target (location) element exists
     const btn = document.createElement('button');
-    btn.id = buttonId;
-    btn.textContent = "Insert from OpenSolar";
-    btn.class = "btn btn-black";
+    btn.id = id;
+    btn.title = title;
+    btn.className = className;
+    btn.innerHTML = svg + textContent; // Set the button's inner HTML to the SVG and text content
     btn.addEventListener("click", () => {
-      alert("Button clicked!");
-      // You can call your autofill function or other logic here
+      reqFormFill(); // Add click event listener to the button
     });
     target.append(btn);
   }
@@ -102,7 +100,7 @@ function watchForTab() {
     for (tab in window.tabList) {
       if (isTabActive(tab)) {
         let currentTab = tab;
-        injectButton();
+        injectButton('Tradify');
         return;
       } else {
         currentTab = null;
@@ -116,44 +114,42 @@ function watchForTab() {
   });
 }
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  /**
-   * This function listens for messages from the background script.
-   * When it receives a message with the action "pasteToTradify",
-   * it extracts the project data and determines which form to use.
-   * It then calls the autofillForm function to fill in the form fields.
-   * @param {object} request - The message request object.
-   * @param {object} sender - The sender object.
-   * @param {function} sendResponse - The function to send a response back.
-   * @return {void}
-   * @throws {Error} If the action is not recognized.
-   * 
-   * @example
-   * 
-   * chrome.runtime.sendMessage({
-   *   action: "pasteToTradify",
-   */
-  if (request.action === "pasteToTradify") {
-    const project = request.project;
-    let form = "";
-    //log to console
-    console.log("Received project data:", project);
-    injectButton();
+function reqFormFill() {
+  let form = "";
+  //log to console
+  chrome.storage.local.get("openSolarProjectData", (result) => {
+    const data = result.openSolarProjectData;
+    if (!data) {
+      userMessage = "No project data found. Please copy from OpenSolar first.";
+      return;
+    }
 
-    //determine which form to use based on the presence of the divs, formMap defined in fieldmap.js
+  console.log("Received project data:", data);
+  //determine which form to use based on the presence of the divs, formMap defined in fieldmap.js
   for (const key in window.formMap) {
     if ($(key).length) {
       form = window.formMap[key];
       break;
     }
   }
+  if (!form) {
+    userMessage = "No form found. Please switch to the correct tab.";
+    return;
+  }
+  console.log("Form to fill:", form);
+  sourceSystem = `OpenSolar`;
+  targetSystem = `Tradify`;
+  autofillForm(sourceSystem, targetSystem, form, data);
+  });
+}
 
-  // Delay to let Angular/Wijmo render the fields
-  setTimeout(() => {
-    sourceSystem = `OpenSolar`;
-    targetSystem = `Tradify`;
-    autofillForm(sourceSystem, targetSystem, form, project);
-  }, 100);
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  /**
+   * This function listens for messages from the background script. 
+   * It checks if the action is "pasteToTradify" and calls the reqFormFill function with the project data.
+   */
+  if (request.action === "pasteToTradify") {
+    reqFormFill();
   }
 });
 
