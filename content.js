@@ -34,6 +34,23 @@ function getByPath(obj, path) {
   }, obj);
 }
 
+function waitForElement(selector, callback, timeout = 5000, interval = 100) {
+  const startTime = Date.now();
+
+  const check = () => {
+    const el = $(selector);
+    if (el.length > 0) {
+      callback(el);
+    } else if (Date.now() - startTime < timeout) {
+      setTimeout(check, interval);
+    } else {
+      console.warn(`[Extension] Element "${selector}" not found within ${timeout}ms.`);
+    }
+  };
+
+  check();
+}
+
 function autofillForm(sourceSystem, targetSystem, form, data) {
   /**
    * This function takes the source and target system names and the data object.
@@ -130,5 +147,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-document.addEventListener("DOMContentLoaded", () => injectButton('Tradify'));
+document.addEventListener("DOMContentLoaded", () => {
+  platform = 'Tradify';
+  waitForElement(window.btnElement[platform].location, () => {
+    injectButton(platform);
+  });
+});
 
