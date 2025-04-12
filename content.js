@@ -39,7 +39,7 @@ function autofillForm(sourceSystem, targetSystem, data) {
   for (const logicalKey in sourceFields) {
     const sourcePath = sourceFields[logicalKey];
     const targetModel = targetFields[logicalKey];
-
+    console.log("Source Path:", sourcePath); ///TODO Remove
     if (!sourcePath || !targetModel) continue;
 
     const value = getByPath(data, sourcePath);
@@ -86,6 +86,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     setTimeout(() => {
       sourceSystem = "OpenSolar.${form}";
       targetSystem = "Tradify.${form}";
+      console.log("Source System:", sourceSystem); ///TODO Remove
       autofillForm(sourceSystem, targetSystem,project);
 
     }, 100);
