@@ -64,8 +64,8 @@ function fetchProjectDetails(orgId, projectId) {
       return response.json();
     })
     .then((data) => {
-      createResultsTable(data);
-      setMessage("Project details loaded.");
+
+      setMessage("Project details loaded. project number: " + data.project_number);
       chrome.storage.local.set({ openSolarProjectData: data }, () => {
         console.log("Project data stored.");
       });
