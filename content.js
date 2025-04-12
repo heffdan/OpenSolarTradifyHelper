@@ -2,6 +2,7 @@
 const buttonId = 'btnOpenSolarImport';
 let currentTab = null;
 let userMessage = null;
+const platform = "Tradify"; // TODO remove
 
 function isTabActive(key) {
   /**
@@ -83,7 +84,7 @@ function autofillForm(sourceSystem, targetSystem, form, data) {
   }
 }
 
-function injectButton(platform) {
+function injectButton() {
   /**
    * This function injects a button into the UI.
    * It checks if the button already exists before creating a new one.
@@ -109,7 +110,6 @@ function injectButton(platform) {
 
 function reqFormFill() {
   let form = "";
-  injectButton('Tradify'); // TODO remove
   //log to console
   chrome.storage.local.get("openSolarProjectData", (result) => {
     const data = result.openSolarProjectData;
@@ -147,10 +147,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  platform = 'Tradify';
-  waitForElement(window.btnElement[platform].location, () => {
-    injectButton(platform);
-  });
+
+waitForElement(window.btnElement[platform].location, () => {
+  injectButton();
 });
+
 
