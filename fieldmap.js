@@ -5,11 +5,12 @@ window.fieldmap = {
         "customer": {
             "firstName": "contacts_data.0.first_name",
             "lastName": "contacts_data.0.last_name",
+            "displayName": "contacts_data.0.display",
             "email": "contacts_data.0.email",
             "phone": "contacts_data.0.phone",
-            "address1": "contacts_data.0.address1",
-            "address2": "contacts_data.0.address2",
+            "address": "contacts_data.0.address",
             "city": "contacts_data.0.city",
+            "countryName": "contacts_data.0.countryName",
             "state": "contacts_data.0.state",
             "postcode": "contacts_data.0.postcode"
         },
@@ -19,12 +20,11 @@ window.fieldmap = {
     },
     "Tradify": {
         "customer": {
-            "firstName": "vm.customer.customerName",
-            "lastName": "",
+            "displayName": "vm.customer.customerName",
             "email": "vm.customer.email",
-            "phone": "vm.customer.phone",
-            "address1": "",
-            "address2": "",
+            "mobile": "vm.customer.mobileNumber",
+            "phone": "vm.customer.phoneNumber",
+            "address": "vm.customer.physicalGeoAddress",
             "city": "",
             "state": "",
             "postcode": ""
