@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // check if on tradify page first
+//check if on tradify page first
   document.getElementById("paste-button").addEventListener("click", () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const tab = tabs[0];
@@ -75,52 +75,3 @@ function fetchProjectDetails(orgId, projectId) {
     });
 }
 
-function createResultsTable(apiData) {
-  const tableContainer = document.getElementById("table-container");
-  tableContainer.innerHTML = "";
-  const table = document.createElement("table");
-  const tbody = document.createElement("tbody");
-  table.appendChild(tbody);
-
-  const addRow = (label, value) => {
-    const row = document.createElement("tr");
-    const labelTd = document.createElement("td");
-    labelTd.textContent = label;
-    row.appendChild(labelTd);
-    const valueTd = document.createElement("td");
-    valueTd.textContent = value;
-    row.appendChild(valueTd);
-    const buttonTd = document.createElement("td");
-    const copyButton = document.createElement("button");
-    copyButton.textContent = "Copy";
-    copyButton.addEventListener("click", () => {
-      copyToClipboard(value);
-    });
-    buttonTd.appendChild(copyButton);
-    row.appendChild(buttonTd);
-    tbody.appendChild(row);
-  };
-
-  addRow("Address", apiData.address || "N/A");
-  const contactsData = Array.isArray(apiData.contacts_data) ? apiData.contacts_data : [];
-  if (!contactsData.length) {
-    addRow("Contacts", "No contacts found");
-  } else {
-    contactsData.forEach((contact, index) => {
-      const fullName = [contact.first_name, contact.last_name].filter(Boolean).join(" ");
-      addRow(`Contact #${index + 1} - Name`, fullName || "N/A");
-      addRow(`Contact #${index + 1} - Phone`, contact.phone || "N/A");
-      addRow(`Contact #${index + 1} - Email`, contact.email || "N/A");
-    });
-  }
-
-  tableContainer.appendChild(table);
-}
-
-function copyToClipboard(text) {
-  navigator.clipboard.writeText(text).then(() => {
-    alert(`Copied: ${text}`);
-  }).catch((err) => {
-    alert(`Failed to copy: ${err}`);
-  });
-}
