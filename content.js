@@ -33,7 +33,7 @@ function getByPath(obj, path) {
   }, obj);
 }
 
-function autofillForm(sourceSystem, targetSystem, data) {
+function autofillForm(sourceSystem, targetSystem, form, data) {
   /**
    * This function takes the source and target system names and the data object.
    * It uses the fieldmap to find the corresponding fields in the source and target systems.
@@ -47,8 +47,8 @@ function autofillForm(sourceSystem, targetSystem, data) {
    * autofillForm("OpenSolar", "Tradify", projectData);
    * 
    */
-  const sourceFields = window.fieldmap[sourceSystem];
-  const targetFields = window.fieldmap[targetSystem];
+  const sourceFields = window.fieldmap[sourceSystem][form];
+  const targetFields = window.fieldmap[targetSystem][form];
 
   for (const logicalKey in sourceFields) {
     const sourcePath = sourceFields[logicalKey];
@@ -144,7 +144,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   setTimeout(() => {
     sourceSystem = `OpenSolar`;
     targetSystem = `Tradify`;
-    autofillForm(sourceSystem, targetSystem, project);
+    autofillForm(sourceSystem, targetSystem, form, project);
   }, 100);
   }
 });
