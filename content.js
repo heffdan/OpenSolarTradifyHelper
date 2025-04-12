@@ -92,6 +92,7 @@ function injectButton(platform) {
 
 function reqFormFill() {
   let form = "";
+  injectButton('Tradify'); // TODO remove
   //log to console
   chrome.storage.local.get("openSolarProjectData", (result) => {
     const data = result.openSolarProjectData;
