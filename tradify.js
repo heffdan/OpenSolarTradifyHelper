@@ -83,7 +83,7 @@ function waitForElement(selector, callback, timeout = 5000, interval = 100) {
   check();
 }
 
-function injectButton(platform, callback) {
+function injectButton(platform) {
   /**
    * This function injects a button into the UI.
    * It checks if the button already exists before creating a new one.
@@ -99,7 +99,7 @@ function injectButton(platform, callback) {
     btn.className = className;
     btn.innerHTML = svg + textContent; // Set the button's inner HTML to the SVG and text content
     btn.addEventListener("click", () => {
-      callback; // Add click event listener to the button
+      reqFormFill();
     });
     target.append(btn);
   }
@@ -146,7 +146,7 @@ chrome.runtime.onMessage.addListener((request) => {
 
 
 waitForElement(window.btnElement[platform].location, () => {
-  injectButton(platform, reqFormFill());
+  injectButton(platform);
 });
 
 

@@ -82,7 +82,7 @@ function getProject() {
         check();
     }
 
-    function injectButton(platform, callback) {
+    function injectButton(platform) {
         /**
          * This function injects a button into the UI.
          * It checks if the button already exists before creating a new one.
@@ -98,12 +98,12 @@ function getProject() {
             btn.className = className;
             btn.innerHTML = svg + textContent; // Set the button's inner HTML to the SVG and text content
             btn.addEventListener("click", () => {
-                callback; // Add click event listener to the button
+                getProject();
             });
             target.append(btn);
         }
     }
 
 waitForElement(window.btnElement[platform].location, () => {
-    injectButton(platform, getProject());
+    injectButton(platform);
   });
