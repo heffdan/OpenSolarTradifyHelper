@@ -49,7 +49,7 @@ window.tabList = [ //list of tabs to be used for autofill
 
 window.btnElement = {
     OpenSolar: { //button to be injected for OpenSolar
-        "location": '.jss2246', //location of button to be injected
+        "location": 'div:has(button[aria-label="Activity"])', //location of button to be injected
         "id":'export-button', //id of button to be injected
         "title": 'Export to Tradify', //text of button to be injected
         "className": 'OSUI-ButtonBase-root OSUI-ButtonBase-sizeMedium OSUI-ButtonBase-colorPrimary OSUI-ButtonBase-variantSquared css-1g2t3k4', //class of button to be injected
