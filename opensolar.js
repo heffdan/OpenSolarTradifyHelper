@@ -107,3 +107,5 @@ function getProject() {
 waitForElement(window.btnElement[platform].location, () => {
     injectButton(platform);
   });
+
+console.log("opensolar script running");
