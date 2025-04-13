@@ -83,7 +83,7 @@ function injectButton(platform) {
     const { location, id, title, className, textContent, svg } = window.btnElement[platform]; // Get the button element details from the fieldmap
     const $el = $(`#${id}`);
     if ($el.length > 0) return; // Check if the button already exists, if so exit
-    const target = $(location).parent;
+    const target = $(location).parent(); // Get the parent element of the target location
     if (target.length > 0 && target.find(`#${id}`).length === 0) { // Check if the target (location) element exists and if the button is not already present
         const btn = document.createElement('button');
         btn.id = id;
