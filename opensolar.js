@@ -84,7 +84,7 @@ function injectButton(platform) {
     const $el = $(`#${id}`);
     if ($el.length > 0) return; // Check if the button already exists, if so exit
     const target = $(location);
-    if (target.length > 0) { // Check if the target (location) element exists
+    if (target.length > 0 && target.find(`#${id}`).length === 0) { // Check if the target (location) element exists and if the button is not already present
         const btn = document.createElement('button');
         btn.id = id;
         btn.title = title;
