@@ -1,8 +1,7 @@
 // This script runs in the context of the web page and interacts with the DOM
-const buttonId = 'btnOpenSolarImport';
 let currentTab = null;
 let userMessage = '';
-const platform = "Tradify"; // TODO remove
+let platform = "Tradify"; // TODO remove
 
 function isTabActive(key) {
   /**
