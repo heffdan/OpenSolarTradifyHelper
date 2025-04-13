@@ -19,7 +19,7 @@
     },
     {
       "matches": ["https://*.opensolar.com/*"],
-      "js": ["jquery-3.7.1.min.js","common.js","opensolar.js"],
+      "js": ["jquery-3.7.1.min.js","secret.js","common.js","opensolar.js"],
       "run_at": "document_idle"
     }
   ]
