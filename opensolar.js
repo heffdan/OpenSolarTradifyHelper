@@ -48,7 +48,7 @@ function fetchProjectDetails(orgId, projectId) {
             chrome.storage.local.set({ openSolarProjectData: data }, () => {
                 console.log("Project data stored.");
                 //display alert to user
-                alert(`Project data stored. Project Number: ${data.project_number}`);
+                alert(`Project data stored for ${data.title}`);
 
             });
         })
@@ -81,7 +81,8 @@ function injectButton(platform) {
      * @returns {void}
      */
     const { location, id, title, className, textContent, svg } = window.btnElement[platform]; // Get the button element details from the fieldmap
-    if (document.getElementById(id)) return; // Check if the button already exists, if so exit
+    const $el = $(`#${id}`);
+    if ($el.length > 0) return; // Check if the button already exists, if so exit
     const target = $(location);
     if (target.length > 0) { // Check if the target (location) element exists
         const btn = document.createElement('button');
