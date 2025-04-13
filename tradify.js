@@ -99,7 +99,7 @@ function injectButton(platform, callback) {
     btn.className = className;
     btn.innerHTML = svg + textContent; // Set the button's inner HTML to the SVG and text content
     btn.addEventListener("click", () => {
-      callback(); // Add click event listener to the button
+      callback; // Add click event listener to the button
     });
     target.append(btn);
   }
