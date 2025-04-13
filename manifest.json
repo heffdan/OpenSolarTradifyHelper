@@ -18,7 +18,7 @@
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://app.opensolar.com/#/projects/*"],
+      "matches": ["https://*.opensolar.com/*/projects/*"],
       "js": ["jquery-3.7.1.min.js","common.js","opensolar.js"],
       "run_at": "document_idle"
     }
