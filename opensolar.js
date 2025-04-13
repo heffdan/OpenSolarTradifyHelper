@@ -1,5 +1,5 @@
 const { ORG_ID, OPEN_SOLAR_BEARER_TOKEN } = window.OPEN_SOLAR_CONFIG;
-platform = "OpenSolar"; // Set the platform to OpenSolar
+let platform = "OpenSolar"; // Set the platform to OpenSolar
 
 function setMessage(text) {
     console.log(`[${platform}] ${text}`);
