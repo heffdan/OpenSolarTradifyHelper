@@ -14,7 +14,12 @@
     "content_scripts": [
     {
       "matches": ["https://*.tradifyhq.com/*"],
-      "js": ["jquery-3.7.1.min.js","fieldmap.js","content.js"],
+      "js": ["jquery-3.7.1.min.js","common.js","tradify.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://app.opensolar.com/#/projects/*"],
+      "js": ["jquery-3.7.1.min.js","common.js","opensolar.js"],
       "run_at": "document_idle"
     }
   ]
