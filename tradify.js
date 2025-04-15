@@ -61,8 +61,43 @@ function autofillForm(sourceSystem, targetSystem, form, data) {
     if (!value) continue;
 
     // Find the input field using the target model
-    const selector = `[value="${targetModel}"]`;
-    $(selector + ' input').val(value);
+    let input;
+
+    if (logicalKey === "address") {
+      // Find the special Wijmo-style address input
+      input = document.querySelector('div.wj-input input.wj-form-control[placeholder*="10 Main Street"]');
+      if (input) {
+        input.focus();
+    
+        // Step 1: Set all but the last character
+        input.value = value.slice(0, -1);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+    
+        // Step 2: Wait for debounce period
+        setTimeout(() => {
+          input.value = value;
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+    
+          // Step 3: Wait for dropdown to appear, then simulate keyboard interaction
+          setTimeout(() => {
+            input.focus();
+            input.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', bubbles: true }));
+            input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', bubbles: true }));
+            console.log("[Extension] Simulated ArrowDown + Enter for address");
+            //input.blur();
+          }, 600);
+        }, 1000);
+      }
+    } else {
+      //Continue on with normal pasting of regular values
+      const selector = `[value="${targetModel}"]`;
+      input = $(selector + ' input')[0];
+      if (input) {
+        input.value = value;
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }
   }
 }
 
