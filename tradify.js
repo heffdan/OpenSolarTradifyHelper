@@ -1,18 +1,9 @@
 // This script runs in the context of the web page and interacts with the DOM
-let currentTab = null;
-let userMessage = '';
-let platform = "Tradify"; // TODO remove
 
-function isTabActive(key) {
-  /**
-   * This function checks if a specific tab is active in the UI.
-    * It uses jQuery to find the tab based on the provided key.
-    * @param {string} key - The key of the tab to check.
-    * @returns {boolean} - Returns true if the tab is active, false otherwise.
-    * 
-   */
-  return $(`[ng-if="vm.selectedTabKey == '${key}'"]`).length > 0;
-}
+let userMessage = '';
+
+
+
 
 function getByPath(obj, path) {
   /**
