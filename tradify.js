@@ -86,8 +86,8 @@ function autofillForm(fieldmap, data, parent) {
     console.log("Value found for key:", logicalKey, "Value:", value); //TODO Remove
     if (!value) continue;
     // Find the input field using the target model
-    const selector = `[value="${target}"]`;
-    const input = parent.find(selector + elementType).first();
+    const wrapperSelector = `[value="${target}"]`; // or whatever identifies the wrapper
+    const input = parent.find(`${wrapperSelector} ${elementType}`).first();
 
     if (!input) continue;
     console.log("Input found:", input); //TODO Remove
