@@ -91,7 +91,7 @@ function autofillForm(fieldmap, data, parent) {
     const wrapperSelector = `[value="${target}"]`; // or whatever identifies the wrapper
     const input = parent.find(`${wrapperSelector} ${elementType}`).first();
 
-    if (!input) continue;
+    if (input.length === 0) continue;
     console.log("Input found:", input); //TODO Remove
         //check if valueMap is not empty and if so, get the value from the mapping
     let mappedValue = valueMap[value] || value; // Get the mapped value or use the original value
