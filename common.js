@@ -1,6 +1,6 @@
 
 
-window.fieldmap = { 
+window.fieldmapOLD = { 
     "OpenSolar": { //maps to OpenSolar data
         "customer": {
             "firstName": "contacts_data.0.first_name",
@@ -30,6 +30,29 @@ window.fieldmap = {
         }
     }
 };
+window.fieldmap = {
+    "Customer Name": {
+        "source": "contacts_data.0.display",
+        "target": "vm.customer.customerName",
+        "elementType": "input",
+        "simulatedInput": "false"},
+    "Customer Email": {
+        "source": "contacts_data.0.email",
+        "target": "vm.customer.email",
+        "elementType": "input",
+        "simulatedInput": "false"},
+    "Customer Phone": {
+        "source": "contacts_data.0.phone",
+        "target": "vm.customer.mobileNumber",
+        "elementType": "input",
+        "simulatedInput": "false"},
+    "Customer Address": {
+        "source": "address",
+        "target": "vm.customer.physicalGeoAddress",
+        "elementType": "input",
+        "simulatedInput": "true"},
+
+} //maps to OpenSolar data
 
 window.formMap = { //determine which form to use base on div present, for multiple (ie popups it will be chosen by last in list
     "#job-detail": "job",
@@ -67,5 +90,5 @@ window.btnElement = {
     }
 };
 
-
+window.parentSelector = [".model-content", "#view-container"];
   

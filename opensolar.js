@@ -57,7 +57,7 @@ function fetchProjectDetails(orgId, projectId) {
         });
 }
 
-function waitForElement(selector, callback, timeout = 5000, interval = 100) {
+function waitForElement(selector, callback, timeout = 10000, interval = 100) {
     const startTime = Date.now();
 
     const check = () => {

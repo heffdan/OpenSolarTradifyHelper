@@ -34,38 +34,15 @@ function getByPath(obj, path) {
   }, obj);
 }
 
-function autofillForm(sourceSystem, targetSystem, form, data) {
+function simulateInput(input, value) {
   /**
-   * This function takes the source and target system names and the data object.
-   * It uses the fieldmap to find the corresponding fields in the source and target systems.
-   * It then fills the target fields with the values from the source fields.
-   * @param {string} sourceSystem - The source system name (e.g., "OpenSolar").
-   * @param {string} targetSystem - The target system name (e.g., "Tradify").
-   * @param {object} data - The data object containing the source data.
+   * This function simulates typing into an input field.
+   * It sets the input value, waits for a debounce period, and then simulates keyboard events.
+   * @param {HTMLInputElement} input - The input field to simulate typing into.
+   * @param {string} value - The value to type into the input field.
    * @returns {void}
-   * @throws {Error} If the source or target system is not found in the fieldmap.
-   * @example
-   * autofillForm("OpenSolar", "Tradify", projectData);
    * 
    */
-  const sourceFields = window.fieldmap[sourceSystem][form];
-  const targetFields = window.fieldmap[targetSystem][form];
-  console.log("Source Fields:", sourceFields); ///TODO Remove
-  for (const logicalKey in sourceFields) {
-    const sourcePath = sourceFields[logicalKey];
-    const targetModel = targetFields[logicalKey];
-    console.log("Source Path:", sourcePath); ///TODO Remove
-    if (!sourcePath || !targetModel) continue;
-
-    const value = getByPath(data, sourcePath);
-    if (!value) continue;
-
-    // Find the input field using the target model
-    let input;
-
-    if (logicalKey === "address") {
-      // Find the special Wijmo-style address input
-      input = document.querySelector('div.wj-input input.wj-form-control[placeholder*="10 Main Street"]');
       if (input) {
         input.focus();
     
@@ -88,15 +65,42 @@ function autofillForm(sourceSystem, targetSystem, form, data) {
           }, 600);
         }, 1000);
       }
-    } else {
-      //Continue on with normal pasting of regular values
-      const selector = `[value="${targetModel}"]`;
-      input = $(selector + ' input')[0];
-      if (input) {
-        input.value = value;
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-        input.dispatchEvent(new Event('change', { bubbles: true }));
-      }
+}
+
+
+function autofillForm(fieldmap, data, parent) {
+  /**
+    * This function autofills a form based on the provided fieldmap and data.
+    * It iterates through the fieldmap, retrieves the source and target paths, and fills in the form fields with the corresponding data.
+    * @param {object} fieldmap - The mapping of form fields to data sources.
+    * @param {object} data - The data to fill in the form.
+    * @returns {void}
+    * 
+   */
+
+  for (const logicalKey in fieldmap) {
+    const sourcePath = logicalKey.source;
+    const targetModel = logicalKey.target;
+    const elementType = logicalKey.elementType;
+    const simulatedInput = logicalKey.simulatedInput;
+    console.log("Source Path:", sourcePath); ///TODO Remove
+    if (!sourcePath || !targetModel) continue;
+    const value = data[sourcePath];
+    if (!value) continue;
+
+    // Find the input field using the target model
+    const selector = `[value="${targetModel}"]`;
+    const input = parent.find(selector + elementType).first();
+    if (!input) continue;
+    switch(simulatedInput) {
+      case "true":
+        simulateInput(input, value);
+        continue;
+      default:
+          input.value = value;
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+          input.dispatchEvent(new Event('change', { bubbles: true }));
+        
     }
   }
 }
@@ -125,22 +129,30 @@ function injectButton(platform) {
    * @returns {void}
    */
   const {location, id , title, className, textContent, svg} = window.btnElement[platform]; // Get the button element details from the fieldmap
+  let parent;
   if (document.getElementById(id)) return; // Check if the button already exists, if so exit
   const target = $(location);
   if (target.length > 0) { // Check if the target (location) element exists
+    for (selector in window.parentSelector) {
+      parent = target.closest(window.parentSelector[selector]); // Get the parent element of the target location
+      if (parent.length > 0) continue; // If the parent element exists, exit the loop
+      console.warn(`[Extension] Parent element "${window.parentSelector[selector]}" not found.`);
+      return; // If no parent element is found, exit the function
+    } // Get the parent element of the target location
     const btn = document.createElement('button');
     btn.id = id;
     btn.title = title;
     btn.className = className;
     btn.innerHTML = svg + textContent; // Set the button's inner HTML to the SVG and text content
+
     btn.addEventListener("click", () => {
-      reqFormFill();
+      reqFormFill(parent);
     });
     target.append(btn);
   }
 }
 
-function reqFormFill() {
+function reqFormFill(parent) {
   let form = "";
   //log to console
   chrome.storage.local.get("openSolarProjectData", (result) => {
@@ -151,21 +163,7 @@ function reqFormFill() {
     }
 
   console.log("Received project data:", data);
-  //determine which form to use based on the presence of the divs, formMap defined in fieldmap.js
-  for (const key in window.formMap) {
-    if ($(key).length) {
-      form = window.formMap[key];
-      break;
-    }
-  }
-  if (!form) {
-    userMessage = "No form found. Please switch to the correct tab.";
-    return;
-  }
-  console.log("Form to fill:", form);
-  sourceSystem = `OpenSolar`;
-  targetSystem = `Tradify`;
-  autofillForm(sourceSystem, targetSystem, form, data);
+  autofillForm(window.fieldmap, data, parent); // Call the autofillForm function with the fieldmap and project data
   });
 }
 
