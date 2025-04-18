@@ -90,7 +90,7 @@ window.fieldmap = {
         "mapping": {}
     }
 }
-//maps to OpenSolar data 
+
 
 
 

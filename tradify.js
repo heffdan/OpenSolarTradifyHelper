@@ -1,10 +1,5 @@
 // This script runs in the context of the web page and interacts with the DOM
 
-let userMessage = '';
-
-
-
-
 function getByPath(obj, path) {
   /**
    * This function retrieves a value from an object using a dot-separated path.
@@ -58,7 +53,6 @@ function simulateInput(input, value) {
   }
 }
 
-
 function autofillForm(fieldmap, data, parent) {
   /**
     * This function autofills a form based on the provided fieldmap and data.
@@ -69,29 +63,26 @@ function autofillForm(fieldmap, data, parent) {
     * 
    */
 
-  for (const logicalKey in fieldmap) {
-    const { source, target, elementType, simulatedInput, mapping} = fieldmap[logicalKey];
+  for (const logicalKey in fieldmap) { // Iterate through each key in the fieldmap
+    const { source, target, elementType, simulatedInput, mapping} = fieldmap[logicalKey]; // Get the source, target, and elementType from the fieldmap
 
-    console.log("logical key:", logicalKey, ", Source:",source,", Target: ",target); ///TODO Remove
-    if (!source || !target) continue;
+    if (!source || !target) continue; // Check if source and target are defined, else skip to next iteration
 
     let value = getByPath(data, source);// Get the value from the data object using the source path
-    console.log("Value found for key:", logicalKey, "Value:", value); //TODO Remove
-    if (!value) continue;
-    // Find the input field using the target model
-    const wrapperSelector = `[value="${target}"]`; // or whatever identifies the wrapper
-    const input = parent.find(`${wrapperSelector} ${elementType}`).first();
+    if (!value) continue; // Check if value is defined, else skip to next iteration
+    
+    // Find the input field using the target model, where div value is equal to target
+    const wrapperSelector = `[value="${target}"]`; 
+    const input = parent.find(`${wrapperSelector} ${elementType}`).first(); // Find the first input field that is a child of the selector
+    if (input.length === 0) continue; // Check if input field exists, else skip to next iteration
 
-    if (input.length === 0) continue;
-    console.log("Input found:", input); //TODO Remove
-        //check if valueMap is not empty and if so, get the value from the mapping
+    //check if valueMap is not empty and if so, get the value from the mapping
     //if mapping is not empty, get the value from the mapping
-    value = String(value); // Convert value to string
+    value = String(value); // Convert value to string to match key
     if (mapping && Object.keys(mapping).length > 0) {
-      console.log("Mapping found for key:", logicalKey, "Mapping:", mapping); //TODO Remove
       value = mapping[value];
   }
-    console.log("Mapped value:", value); //TODO Remove
+    // Check if the input field requires simulated user input
     switch(simulatedInput) {
       case "true":
         simulateInput(input, value);
@@ -104,23 +95,6 @@ function autofillForm(fieldmap, data, parent) {
   }
 }
 
-function waitForElement(selector, callback, timeout = 5000, interval = 100) {
-  const startTime = Date.now();
-
-  const check = () => {
-    const el = $(selector);
-    if (el.length > 0) {
-      callback(el);
-    } else if (Date.now() - startTime < timeout) {
-      setTimeout(check, interval);
-    } else {
-      console.warn(`[Extension] Element "${selector}" not found within ${timeout}ms.`);
-    }
-  };
-
-  check();
-}
-
 function injectButton(platform) {
   /**
    * This function injects a button into the UI.
@@ -129,13 +103,21 @@ function injectButton(platform) {
    */
   const {location, id , title, className, textContent, svg} = window.btnElement[platform]; // Get the button element details from the fieldmap
   let parent;
+
   if (document.getElementById(id)) return; // Check if the button already exists, if so exit
-  const target = $(location); // Get the parent element of the target location
-  if (target.length > 0) { // Check if the target (location) element exists
+
+  const target = $(location); // Get the target location for the button (the parent)
+  if (target.length > 0) { // confirm parent exists
+
+    /**
+     * This block checks for the nearest parent element of the target location that matches window.parentselector.
+     * this will be passed to the autofillForm function to find the input fields that are only children of the parent element
+     * this is to ensure that if using the autofill function, it will only fill the input fields that are children of the parent element
+     * and not fill in fields behind the popup if the button was in the popup
+     */
     for (selector in window.parentSelector) {
       parent = target.closest(window.parentSelector[selector]); // Get the parent element of the target location
       if (parent.length > 0) {
-        console.log("Parent element found for selector:", window.parentSelector[selector]);
         break; // Exit the for loop
       }
       console.warn(`[Extension] Parent element not found for selector ${window.parentSelector[selector]}`);
@@ -145,6 +127,8 @@ function injectButton(platform) {
       console.warn(`[Extension] Parent element not found`);
       return;
     }
+
+    //inject button
     const btn = document.createElement('button');
     btn.id = id;
     btn.title = title;
@@ -159,12 +143,15 @@ function injectButton(platform) {
 }
 
 function reqFormFill(parent) {
-  let form = "";
-  //log to console
+  /**
+   * This function handles the button click event for autofilling the form.
+   * It retrieves the project data from local storage and calls the autofillForm function.
+   * @returns {void}
+   */
   chrome.storage.local.get("openSolarProjectData", (result) => {
     const data = result.openSolarProjectData;
     if (!data) {
-      userMessage = "No project data found. Please copy from OpenSolar first.";
+      alert("No project data found. Please copy from OpenSolar first.");
       return;
     }
 
@@ -173,26 +160,16 @@ function reqFormFill(parent) {
   });
 }
 
-chrome.runtime.onMessage.addListener((request) => {
-  /**
-   * This function listens for messages from the background script. 
-   * It checks if the action is "pasteToTradify" and calls the reqFormFill function with the project data.
-   */
-  if (request.action === "pasteToTradify") {
-    reqFormFill();
-  }
-});
-
 function handleDOMChange(mutationsList, observer) {
-  injectButton('TradifyPopup');
+  /**
+   * This function handles DOM changes and injects buttons into the UI.
+   * It checks if the target element is present and injects the buttons accordingly.
+   * These functions are called on every change in the DOM, but exited if the button already exists
+   */
+  injectButton('TradifyPopup'); 
   injectButton('Tradify');
   console.log("DOM changed");
 }
-/**
-waitForElement(window.btnElement[platform].location, () => {
-  injectButton(platform);
-});
-*/
 
 
 // Create a new MutationObserver instance
