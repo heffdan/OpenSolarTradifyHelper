@@ -126,7 +126,7 @@ function injectButton(platform) {
    * It checks if the button already exists before creating a new one.
    * @returns {void}
    */
-  const {location, alternateLocation, id , title, className, textContent, svg} = window.btnElement[platform]; // Get the button element details from the fieldmap
+  const {location, id , title, className, textContent, svg} = window.btnElement[platform]; // Get the button element details from the fieldmap
   let parent;
   if (document.getElementById(id)) return; // Check if the button already exists, if so exit
   const target = $(location); // Get the parent element of the target location
@@ -135,9 +135,10 @@ function injectButton(platform) {
       parent = target.closest(window.parentSelector[selector]); // Get the parent element of the target location
       if (parent.length > 0) {
         console.log("Parent element found for selector:", window.parentSelector[selector]);
-        continue; // If the parent element exists, exit the loop
+        break; // Exit the for loop
       }
       console.warn(`[Extension] Parent element not found for selector ${window.parentSelector[selector]}`);
+      continue; // Continue to the next selector
     } 
     if (parent.length === 0) {
       console.warn(`[Extension] Parent element not found`);
