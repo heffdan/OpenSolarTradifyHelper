@@ -48,18 +48,18 @@ function simulateInput(input, value) {
 
     // Step 1: Set all but the last character
     input.val(value.slice(0, -1));
-    input.dispatchEvent(new Event('input', { bubbles: true }));
+    input[0].dispatchEvent(new Event('input', { bubbles: true }));
 
     // Step 2: Wait for debounce period
     setTimeout(() => {
       input.val(value);
-      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input[0].dispatchEvent(new Event('input', { bubbles: true }));
 
       // Step 3: Wait for dropdown to appear, then simulate keyboard interaction
       setTimeout(() => {
         input.focus();
-        input.trigger($.Event('keydown', { key: 'ArrowDown', code: 'ArrowDown', bubbles: true }));
-        input.trigger($.Event('keydown', { key: 'Enter', code: 'Enter', bubbles: true }));
+        input[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', bubbles: true }));
+        input[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', bubbles: true }));
         console.log("[Extension] Simulated ArrowDown + Enter for address");
         //input.blur();
       }, 600);
@@ -97,9 +97,8 @@ function autofillForm(fieldmap, data, parent) {
         continue;
       default:
         input.val(value);
-        input.trigger('input');
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-        input.dispatchEvent(new Event('change', { bubbles: true }));
+        input[0].dispatchEvent(new Event('input', { bubbles: true }));
+        input[0].dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
 }
