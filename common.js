@@ -65,7 +65,7 @@ window.fieldmap = {
         "source": "priority",
         "target": "vm.job.jobType",
         "elementType": "input",
-        "simulatedInput": "false"},
+        "simulatedInput": "true"},
         "mapping": {
             "1": "Low",
             "2": "Medium",
