@@ -83,7 +83,7 @@ function autofillForm(fieldmap, data, parent) {
     const targetModel = logicalKey.target;
     const elementType = logicalKey.elementType;
     const simulatedInput = logicalKey.simulatedInput;
-    console.log("logical key:", logicalKey); ///TODO Remove
+    console.log("logical key:", logicalKey, ", Source:",sourcePath,", Target: ",targetModel); ///TODO Remove
     if (!sourcePath || !targetModel) continue;
     const value = data[sourcePath];
     console.log("Value found for key:", logicalKey, "Value:", value); //TODO Remove
