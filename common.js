@@ -77,12 +77,13 @@ window.fieldmap = {
         "source": "priority",
         "target": "vm.job.jobType",
         "elementType": "input",
-        "simulatedInput": "true"},
+        "simulatedInput": "true",
         "mapping": {
             "1": "Low",
             "2": "Medium",
             "3": "High"
         }
+    }
 } //maps to OpenSolar data
 
 
