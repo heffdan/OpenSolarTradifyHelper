@@ -38,33 +38,33 @@ function simulateInput(input, value) {
   /**
    * This function simulates typing into an input field.
    * It sets the input value, waits for a debounce period, and then simulates keyboard events.
-   * @param {HTMLInputElement} input - The input field to simulate typing into.
+   * @param {jQuery} input - The input field to simulate typing into.
    * @param {string} value - The value to type into the input field.
    * @returns {void}
    * 
    */
-      if (input) {
+  if (input) {
+    input.focus();
+
+    // Step 1: Set all but the last character
+    input.val(value.slice(0, -1));
+    input.trigger('input');
+
+    // Step 2: Wait for debounce period
+    setTimeout(() => {
+      input.val(value);
+      input.trigger('input');
+
+      // Step 3: Wait for dropdown to appear, then simulate keyboard interaction
+      setTimeout(() => {
         input.focus();
-    
-        // Step 1: Set all but the last character
-        input.value = value.slice(0, -1);
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-    
-        // Step 2: Wait for debounce period
-        setTimeout(() => {
-          input.value = value;
-          input.dispatchEvent(new Event('input', { bubbles: true }));
-    
-          // Step 3: Wait for dropdown to appear, then simulate keyboard interaction
-          setTimeout(() => {
-            input.focus();
-            input.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', bubbles: true }));
-            input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', bubbles: true }));
-            console.log("[Extension] Simulated ArrowDown + Enter for address");
-            //input.blur();
-          }, 600);
-        }, 1000);
-      }
+        input.trigger($.Event('keydown', { key: 'ArrowDown', code: 'ArrowDown', bubbles: true }));
+        input.trigger($.Event('keydown', { key: 'Enter', code: 'Enter', bubbles: true }));
+        console.log("[Extension] Simulated ArrowDown + Enter for address");
+        //input.blur();
+      }, 600);
+    }, 1000);
+  }
 }
 
 
@@ -96,9 +96,9 @@ function autofillForm(fieldmap, data, parent) {
         simulateInput(input, value);
         continue;
       default:
-          input.value = value;
-          input.dispatchEvent(new Event('input', { bubbles: true }));
-          input.dispatchEvent(new Event('change', { bubbles: true }));
+          input.val(value);
+          input.trigger('input');
+          input.trigger('change');
         
     }
   }
