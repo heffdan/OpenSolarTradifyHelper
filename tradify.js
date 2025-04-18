@@ -86,8 +86,8 @@ function autofillForm(fieldmap, data, parent) {
     console.log("logical key:", logicalKey); ///TODO Remove
     if (!sourcePath || !targetModel) continue;
     const value = data[sourcePath];
+    console.log("Value found for key:", logicalKey, "Value:", value); //TODO Remove
     if (!value) continue;
-    console.log("Data found for key:", logicalKey);
     // Find the input field using the target model
     const selector = `[value="${targetModel}"]`;
     const input = parent.find(selector + elementType).first();
