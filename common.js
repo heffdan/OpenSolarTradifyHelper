@@ -82,7 +82,14 @@ window.fieldmap = {
         "simulatedInput": "false",
         "mapping": {}
         },
+    "Customer Reference": {
+        "source": "",
+        "target": "vm.job.customerRef",
+        "elementType": "input",
+        "simulatedInput": "false",
+        "mapping": {}
     }
+}
 //maps to OpenSolar data 
 
 
@@ -113,7 +120,7 @@ window.btnElement = {
         "textContent": 'Import from OpenSolar', //content of button to be injected
         "svg": ''
     }
-};
+}
 
 window.parentSelector = [".modal-content", "#view-container"];
   
