@@ -86,17 +86,6 @@ window.fieldmap = {
 //maps to OpenSolar data 
 
 
-window.tabList = [ //list of tabs to be used for autofill
-    "info",
-    "notes",
-    "sites",
-    "jobs",
-    "recurringjobs",
-    "servicereminders",
-    "invoices",
-    "recurringinvoices",
-    "quotes"
-]; 
 
 window.btnElement = {
     OpenSolar: { //button to be injected for OpenSolar
