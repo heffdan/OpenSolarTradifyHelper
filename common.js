@@ -54,10 +54,6 @@ window.fieldmap = {
 
 } //maps to OpenSolar data
 
-window.formMap = { //determine which form to use base on div present, for multiple (ie popups it will be chosen by last in list
-    "#job-detail": "job",
-    "#customer-detail": "customer"
-};
 
 window.tabList = [ //list of tabs to be used for autofill
     "info",
@@ -99,5 +95,5 @@ window.btnElement = {
     }
 };
 
-window.parentSelector = [".model-content", "#view-container"];
+window.parentSelector = [".modal-content", "#view-container"];
   
