@@ -1,35 +1,4 @@
 
-
-window.fieldmapOLD = { 
-    "OpenSolar": { //maps to OpenSolar data
-        "customer": {
-            "firstName": "contacts_data.0.first_name",
-            "lastName": "contacts_data.0.family_name",
-            "displayName": "contacts_data.0.display",
-            "email": "contacts_data.0.email",
-            "phone": "contacts_data.0.phone",
-            "address": "address", //The address from opensolar is at the root field on the api so added it here (rather than from below job section)
-        },
-        "job": {
-            "siteName": "title",
-            "address": "address",
-            "countryName": "countryName",
-        }
-    },
-    "Tradify": { //maps to Tradify fields
-        "customer": {
-            "displayName": "vm.customer.customerName",
-            "email": "vm.customer.email",
-            "mobile": "vm.customer.mobileNumber",
-            "phone": "vm.customer.phoneNumber",
-            "address": "vm.customer.physicalGeoAddress"
-        },
-        "job": {
-            // project fields
-            "siteName": "vm.model.locationName",
-        }
-    }
-};
 window.fieldmap = {
     "Customer Name": {
         "source": "contacts_data.0.display",
@@ -84,7 +53,7 @@ window.fieldmap = {
         "source": "priority",
         "target": "vm.job.jobType",
         "elementType": "input",
-        "simulatedInput": "true",
+        "simulatedInput": "false",
         "mapping": {
             "1": "Low Priority",
             "2": "Medium Priority",
