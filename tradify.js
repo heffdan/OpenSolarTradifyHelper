@@ -99,7 +99,7 @@ function autofillForm(fieldmap, data, parent) {
     if (mapping && Object.keys(mapping).length > 0) {
       value = mapping[value] || value;
   }
-    console.log("Mapped value:", mappedValue); //TODO Remove
+    console.log("Mapped value:", value); //TODO Remove
     switch(simulatedInput) {
       case "true":
         simulateInput(input, value);
