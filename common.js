@@ -88,7 +88,7 @@ window.btnElement = {
         "className": 'btn btn-black ng-binding ng-scope', //class of button to be injected
         "textContent": 'Import from OpenSolar', //content of button to be injected
         "svg": ''
-    }
+    },
     TradifyPopup: { //button to be injected for Tradify
         "location": '.modal-footer', //location of button to be injected
         "id":'popup-import-button', //id of button to be injected
