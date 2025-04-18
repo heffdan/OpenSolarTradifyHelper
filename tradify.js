@@ -2,6 +2,14 @@
 let currentTab = null;
 let userMessage = '';
 let platform = "Tradify"; // TODO remove
+// Create a new MutationObserver instance
+const observer = new MutationObserver(handleDOMChange);
+
+// Configuration for the observer
+const observerConfig = {
+  childList: true, // Watch for changes in the child nodes of the target
+  subtree: true, // Watch for changes in the entire subtree of the target
+};
 
 function isTabActive(key) {
   /**
@@ -178,9 +186,15 @@ chrome.runtime.onMessage.addListener((request) => {
   }
 });
 
-
-waitForElement(window.btnElement[platform].location, () => {
+function handleDOMChange(mutationsList, observer) {
+  waitForElement(window.btnElement[platform].location, () => {
   injectButton(platform);
-});
+  });
+
+}
+
+
+// Start observing the DOM with the specified configuration
+observer.observe(document, observerConfig);
 
 
