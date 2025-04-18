@@ -120,7 +120,7 @@ function waitForElement(selector, callback, timeout = 5000, interval = 100) {
   check();
 }
 
-function injectButton(platform,alternate = false) {
+function injectButton(platform) {
   /**
    * This function injects a button into the UI.
    * It checks if the button already exists before creating a new one.
@@ -129,7 +129,7 @@ function injectButton(platform,alternate = false) {
   const {location, alternateLocation, id , title, className, textContent, svg} = window.btnElement[platform]; // Get the button element details from the fieldmap
   let parent;
   if (document.getElementById(id)) return; // Check if the button already exists, if so exit
-  const target = alternate ? $(alternateLocation) : $(location); // Get the parent element of the target location
+  const target = $(location); // Get the parent element of the target location
   if (target.length > 0) { // Check if the target (location) element exists
     for (selector in window.parentSelector) {
       parent = target.closest(window.parentSelector[selector]); // Get the parent element of the target location
@@ -179,7 +179,7 @@ chrome.runtime.onMessage.addListener((request) => {
 });
 
 function handleDOMChange(mutationsList, observer) {
-  injectButton(platform,true); // Inject the button into the DOM
+  injectButton('TradifyPopup');
   console.log("DOM changed");
 }
 
