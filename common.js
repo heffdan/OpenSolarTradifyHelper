@@ -35,32 +35,44 @@ window.fieldmap = {
         "source": "contacts_data.0.display",
         "target": "vm.customer.customerName",
         "elementType": "input",
-        "simulatedInput": "false"},
+        "simulatedInput": "false",
+        "mapping": {}
+    },
     "Customer Email": {
         "source": "contacts_data.0.email",
         "target": "vm.customer.email",
         "elementType": "input",
-        "simulatedInput": "false"},
+        "simulatedInput": "false",
+        "mapping": {}
+    },
     "Customer Phone": {
         "source": "contacts_data.0.phone",
         "target": "vm.customer.mobileNumber",
         "elementType": "input",
-        "simulatedInput": "false"},
+        "simulatedInput": "false",
+        "mapping": {}
+    },
     "Customer Address": {
         "source": "address",
         "target": "vm.customer.physicalGeoAddress",
         "elementType": "input",
-        "simulatedInput": "true"},
+        "simulatedInput": "true",
+        "mapping": {}
+    },
     "Job Name": {
         "source": "title",
         "target": "vm.model.locationName",
         "elementType": "input",
-        "simulatedInput": "false"},
+        "simulatedInput": "false",
+        "mapping": {}
+    },
     "Job Address": {
         "source": "address",
         "target": "vm.model.geoAddress",
         "elementType": "input",
-        "simulatedInput": "true"},
+        "simulatedInput": "true",
+        "mapping": {}
+        },
     "Job Priority": {
         "source": "priority",
         "target": "vm.job.jobType",
@@ -70,7 +82,7 @@ window.fieldmap = {
             "1": "Low",
             "2": "Medium",
             "3": "High"
-        },
+        }
 } //maps to OpenSolar data
 
 
