@@ -82,6 +82,7 @@ window.btnElement = {
     },
     Tradify: { //button to be injected for Tradify
         "location": '.navbar-fixed-bottom.action-bar .pull-left', //location of button to be injected
+        "alternateLocation": '.modal-footer', //alternate location of button to be injected
         "id":'import-button', //id of button to be injected
         "title": 'Import from OpenSolar', //text of button to be injected
         "className": 'btn btn-black ng-binding ng-scope', //class of button to be injected

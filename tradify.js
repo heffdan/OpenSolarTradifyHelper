@@ -2,14 +2,6 @@
 let currentTab = null;
 let userMessage = '';
 let platform = "Tradify"; // TODO remove
-// Create a new MutationObserver instance
-const observer = new MutationObserver(handleDOMChange);
-
-// Configuration for the observer
-const observerConfig = {
-  childList: true, // Watch for changes in the child nodes of the target
-  subtree: true, // Watch for changes in the entire subtree of the target
-};
 
 function isTabActive(key) {
   /**
@@ -128,16 +120,16 @@ function waitForElement(selector, callback, timeout = 5000, interval = 100) {
   check();
 }
 
-function injectButton(platform) {
+function injectButton(platform,alternate = false) {
   /**
    * This function injects a button into the UI.
    * It checks if the button already exists before creating a new one.
    * @returns {void}
    */
-  const {location, id , title, className, textContent, svg} = window.btnElement[platform]; // Get the button element details from the fieldmap
+  const {location, alternateLocation, id , title, className, textContent, svg} = window.btnElement[platform]; // Get the button element details from the fieldmap
   let parent;
   if (document.getElementById(id)) return; // Check if the button already exists, if so exit
-  const target = $(location);
+  const target = alternate ? $(alternateLocation) : $(location); // Get the parent element of the target location
   if (target.length > 0) { // Check if the target (location) element exists
     for (selector in window.parentSelector) {
       parent = target.closest(window.parentSelector[selector]); // Get the parent element of the target location
@@ -187,12 +179,24 @@ chrome.runtime.onMessage.addListener((request) => {
 });
 
 function handleDOMChange(mutationsList, observer) {
-  waitForElement(window.btnElement[platform].location, () => {
-  injectButton(platform);
-  });
-
+  injectButton(platform,true); // Inject the button into the DOM
+  console.log("DOM changed");
 }
 
+waitForElement(window.btnElement[platform].location, () => {
+  injectButton(platform);
+});
+
+
+
+// Create a new MutationObserver instance
+const observer = new MutationObserver(handleDOMChange);
+
+// Configuration for the observer
+const observerConfig = {
+  childList: true, // Watch for changes in the child nodes of the target
+  subtree: true, // Watch for changes in the entire subtree of the target
+};
 
 // Start observing the DOM with the specified configuration
 observer.observe(document, observerConfig);
