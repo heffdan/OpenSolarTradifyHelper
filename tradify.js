@@ -96,10 +96,10 @@ function autofillForm(fieldmap, data, parent) {
         simulateInput(input, value);
         continue;
       default:
-          input.val(value);
-          input.trigger('input');
-          input.trigger('change');
-        
+        input.val(value);
+        input.trigger('input');
+        input.trigger('change');
+        input.trigger('keyup');
     }
   }
 }
