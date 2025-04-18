@@ -81,6 +81,7 @@ function autofillForm(fieldmap, data, parent) {
   for (const logicalKey in fieldmap) {
     const { source, target, elementType, simulatedInput } = fieldmap[logicalKey];
     const valueMap = fieldmap[logicalKey].mapping || {};
+    console.log("Value map:", valueMap); //TODO Remove
     console.log("logical key:", logicalKey, ", Source:",source,", Target: ",target); ///TODO Remove
     if (!source || !target) continue;
 
