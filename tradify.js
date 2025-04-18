@@ -48,12 +48,12 @@ function simulateInput(input, value) {
 
     // Step 1: Set all but the last character
     input.val(value.slice(0, -1));
-    input.trigger('input');
+    input.dispatchEvent(new Event('input', { bubbles: true }));
 
     // Step 2: Wait for debounce period
     setTimeout(() => {
       input.val(value);
-      input.trigger('input');
+      input.dispatchEvent(new Event('input', { bubbles: true }));
 
       // Step 3: Wait for dropdown to appear, then simulate keyboard interaction
       setTimeout(() => {
@@ -98,8 +98,8 @@ function autofillForm(fieldmap, data, parent) {
       default:
         input.val(value);
         input.trigger('input');
-        input.trigger('change');
-        input.trigger('keyup');
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
 }
