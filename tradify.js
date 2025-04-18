@@ -136,6 +136,7 @@ function injectButton(platform) {
     for (selector in window.parentSelector) {
       parent = target.closest(selector); // Get the parent element of the target location
       if (parent.length > 0) continue; // If the parent element exists, exit the loop
+      console.warn(`[Extension] Parent element not found for selector ${selector}`);
     } 
     if (parent.length === 0) {
       console.warn(`[Extension] Parent element not found`);
