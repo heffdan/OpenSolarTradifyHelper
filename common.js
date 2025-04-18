@@ -73,15 +73,22 @@ window.fieldmap = {
         "simulatedInput": "true",
         "mapping": {}
         },
+    "Job Address": {
+        "source": "address",
+        "target": "vm.job.geoAddress",
+        "elementType": "input",
+        "simulatedInput": "true",
+        "mapping": {}
+        },
     "Job Priority": {
         "source": "priority",
         "target": "vm.job.jobType",
         "elementType": "input",
         "simulatedInput": "true",
         "mapping": {
-            "1": "Low",
-            "2": "Medium",
-            "3": "High"
+            "1": "Low Priority",
+            "2": "Medium Priority",
+            "3": "High Priority",
         }
     }
 } //maps to OpenSolar data
