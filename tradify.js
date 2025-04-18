@@ -188,13 +188,14 @@ chrome.runtime.onMessage.addListener((request) => {
 
 function handleDOMChange(mutationsList, observer) {
   injectButton('TradifyPopup');
+  injectButton('Tradify');
   console.log("DOM changed");
 }
-
+/**
 waitForElement(window.btnElement[platform].location, () => {
   injectButton(platform);
 });
-
+*/
 
 
 // Create a new MutationObserver instance
