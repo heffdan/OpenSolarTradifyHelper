@@ -7,6 +7,7 @@ window.fieldmap = {
         "simulatedInput": "false",
         "mapping": {}
     },
+
     "Customer Email": {
         "source": "contacts_data.0.email",
         "target": "vm.customer.email",
@@ -58,9 +59,30 @@ window.fieldmap = {
             "1": "Low Priority",
             "2": "Medium Priority",
             "3": "High Priority",
-        }
+        },
+        "Contact Name": {
+            "source": "contacts_data.0.display",
+            "target": "vm.model.phoneNumber",
+            "elementType": "input",
+            "simulatedInput": "false",
+            "mapping": {}
+        },
+        "Contact phone": {
+            "source": "contacts_data.0.phone",
+            "target": "vm.model.contact",
+            "elementType": "input",
+            "simulatedInput": "false",
+            "mapping": {}
+        },
+        "Contact email": {
+            "source": "contacts_data.0.phone",
+            "target": "vm.model.email",
+            "elementType": "input",
+            "simulatedInput": "false",
+            "mapping": {}
+        },
     }
-} //maps to OpenSolar data
+} //maps to OpenSolar data 
 
 
 window.tabList = [ //list of tabs to be used for autofill
