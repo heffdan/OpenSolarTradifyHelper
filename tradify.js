@@ -97,7 +97,8 @@ function autofillForm(fieldmap, data, parent) {
     //if mapping is not empty, get the value from the mapping
     value = String(value); // Convert value to string
     if (mapping && Object.keys(mapping).length > 0) {
-      value = mapping[value] || value;
+      console.log("Mapping found for key:", logicalKey, "Mapping:", mapping); //TODO Remove
+      value = mapping[value];
   }
     console.log("Mapped value:", value); //TODO Remove
     switch(simulatedInput) {
