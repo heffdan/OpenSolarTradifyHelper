@@ -119,23 +119,37 @@ function waitForElement(selector, callback, timeout = 5000, interval = 100) {
 }
 
 function injectButton(platform) {
-  /**
-   * This function injects a button into the UI.
-   * It checks if the button already exists before creating a new one.
-   * @returns {void}
-   */
-  const {location, id , title, className, textContent, svg} = window.btnElement[platform]; // Get the button element details from the fieldmap
-  if (document.getElementById(id)) return; // Check if the button already exists, if so exit
+  const { location, id, title, className, textContent, svg } = window.btnElement[platform];
+  if (document.getElementById(id)) return;
+
   const target = $(location);
-  if (target.length > 0) { // Check if the target (location) element exists
+  if (target.length > 0) {
+    // Create the button
     const btn = document.createElement('button');
     btn.id = id;
     btn.title = title;
     btn.className = className;
-    btn.innerHTML = svg + textContent; // Set the button's inner HTML to the SVG and text content
+
+    // Create the logo image
+    const logo = document.createElement('img');
+    logo.src = chrome.runtime.getURL('proven_logo.png');
+    logo.alt = 'Proven Logo';
+    logo.style.width = '16px';
+    logo.style.height = '16px';
+    logo.style.verticalAlign = 'middle';
+    logo.style.marginRight = '6px';
+
+    // Combine image and text into a span wrapper
+    const textSpan = document.createElement('span');
+    textSpan.textContent = textContent;
+
+    btn.appendChild(logo);
+    btn.appendChild(textSpan);
+
     btn.addEventListener("click", () => {
       reqFormFill();
     });
+
     target.append(btn);
   }
 }

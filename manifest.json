@@ -9,7 +9,19 @@
       "https://*.tradifyhq.com/*"
     ],
     "action": {
-      "default_popup": "popup.html"
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "proven_logo.png",
+        "32": "proven_logo.png",
+        "48": "proven_logo.png",
+        "128": "proven_logo.png"
+      }
+    },
+    "icons": {
+      "16": "proven_logo.png",
+      "32": "proven_logo.png",
+      "48": "proven_logo.png",
+      "128": "proven_logo.png"
     },
     "content_scripts": [
     {
@@ -22,6 +34,12 @@
       "js": ["jquery-3.7.1.min.js","secret.js","common.js","opensolar.js"],
       "run_at": "document_idle"
     }
-  ]
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["proven_logo.png"],
+      "matches": ["<all_urls>"]
+    }
+  ]  
   }
   
