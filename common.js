@@ -8,6 +8,7 @@ window.fieldmap = {
             "displayName": "contacts_data.0.display",
             "email": "contacts_data.0.email",
             "phone": "contacts_data.0.phone",
+            "address": "address", //The address from opensolar is at the root field on the api so added it here (rather than from below job section)
         },
         "job": {
             "siteName": "title",
