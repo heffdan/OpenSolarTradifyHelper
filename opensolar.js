@@ -48,7 +48,7 @@ function fetchProjectDetails(orgId, projectId) {
             chrome.storage.local.set({ openSolarProjectData: data }, () => {
                 console.log("Project data stored.");
                 //display alert to user
-                alert(`Project data stored for ${data.title}`);
+                alert(`Project data stored for ${data.title}\n\nPlease switch to the Tradify tab to paste the data.`);
 
             });
         })

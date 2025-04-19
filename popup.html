@@ -4,23 +4,53 @@
     <meta charset="utf-8" />
     <title>OpenSolar Project Info</title>
     <style>
-      table {
-        border-collapse: collapse;
+      /* Basic layout and styling */
+      body {
+        font-family: "Segoe UI", sans-serif;
+        margin: 0;
+        padding: 16px;
+        width: 280px;
+        background-color: #f8f9fa;
+        color: #333;
       }
-      td, th {
-        padding: 6px;
-        border: 1px solid #ddd;
+
+      .container {
+        background: white;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
       }
-      button {
-        cursor: pointer;
-        margin-top: 10px;
+
+      .logo {
+        max-width: 100px;
+        margin-bottom: 12px;
+      }
+
+      h1 {
+        font-size: 18px;
+        margin-bottom: 12px;
+        color: #009bc5;
+      }
+
+      #message {
+        font-size: 14px;
+        margin-top: 12px;
+        line-height: 1.5;
       }
     </style>
   </head>
   <body>
-    <h1>OpenSolar Project Info</h1>
-    <div id="message">Loading...</div>
-    <button id="paste-button">Paste into Tradify</button>
+    <div class="container">
+      <!-- Proven Energy logo -->
+      <img src="proven_logo.png" alt="Proven Logo" class="logo" />
+
+      <!-- Heading and dynamic message area -->
+      <h1>OpenSolar Project Info</h1>
+      <div id="message">Loading project info...</div>
+    </div>
+
+    <!-- Inject config + script logic -->
     <script src="secret.js"></script>
     <script src="popup.js"></script>
   </body>
